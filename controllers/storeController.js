@@ -78,7 +78,9 @@ exports.updateStore = async (req, res) => {
 	// Redirect them to the store and tell them it worked
 	req.flash(
 		"success",
-		`Successfully updated <strong>${store.name}</strong> <a href="/store/${store.slug}">View Store</a>`
+		`Successfully updated <strong>${store.name}</strong> <a href="/store/${
+			store.slug
+		}">View Store</a>`
 	);
 	res.redirect(`/stores/${store._id}/edit`);
 };
@@ -89,4 +91,10 @@ exports.getStoreBySlug = async (req, res, next) => {
 		return next();
 	}
 	res.render("store", { store, title: store.name });
+};
+
+exports.getStoresByTag = async (req, res) => {
+	const tags = await Store.getTagsList();
+	const tag = req.params.tag;
+	res.render("tag", { tags, title: "Tags", tag });
 };
