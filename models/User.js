@@ -1,5 +1,3 @@
-import { map } from "bluebird";
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
@@ -22,6 +20,12 @@ const userSchema = new Schema({
 		required: "Please supply a name",
 		trim: true
 	}
+});
+
+userSchema.virtual("gravatar").get(function() {
+	// return `http://www.joy.land/dist/assets/img/games/og-image/game-7.png`;
+	const hash = md5(this.email);
+	return `https://gravatar.com/avatar/${hash}?s=200`;
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: "email" });
